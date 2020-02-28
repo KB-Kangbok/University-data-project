@@ -1,6 +1,6 @@
 ---
-title: "Individual Project Graphics"
-author: "KB Lee"
+title: "Return on investment of Universities"
+author: "KB Lee, Jason Lee, DeAndre King"
 output: html_document
 ---
 
@@ -45,11 +45,11 @@ College_final$RET_PTL4 <- as.numeric(as.character(College_final$RET_PTL4))
 College_final$WDRAW_ORIG_YR4_RT <- as.numeric(as.character(College_final$WDRAW_ORIG_YR4_RT))
 ```
 
-### Figure 1. Table
+### Figure 1. Line Plot on Admmission group
 
 ```{r}
 College_tbl_data <- College_final %>% 
-  mutate(adm_group = (ADM_RATE * 100) %/% 10) %>%
+  mutate(adm_group = ifelse(ADM_RATE == 1, (ADM_RATE * 100) %/% 10 - 1 ,(ADM_RATE * 100) %/% 10)) %>%
   filter(!is.na(adm_group) & !is.na(MN_EARN_WNE_P6) & !is.na(COUNT_WNE_P6)) %>%
   group_by(adm_group) %>% 
   summarize(Avg_net_tuition = mean(TUITFTE, na.rm = TRUE),
@@ -57,45 +57,78 @@ College_tbl_data <- College_final %>%
             net_employed = sum(!is.na(COUNT_WNE_P6)),
             Avg_earning = net_earning/net_employed
             )
-kable(College_tbl_data, caption = "College tuition and salary grouped by admission rate")
-```
 
-### Figure 2. Line plot
-
-```{r}
 ggplot(data = College_tbl_data) +
-  geom_line(aes(x = adm_group, y = Avg_net_tuition), color = "steelblue") +
-  geom_line(aes(x = adm_group, y = Avg_earning / 10000), color = "red") +
+  geom_line(aes(x = adm_group, y = Avg_net_tuition), color = "steelblue", size = 1.1) +
+  geom_line(aes(x = adm_group, y = Avg_earning / 10000), color = "red", size = 1.1) +
   theme_bw() +
   ylab("Modified average tuition & salary") +
   xlab("Admission rates quotient by 10") +
-  geom_text(x = 7, y = 30000, label = "Salary line", color = "red") +
-  geom_text(x = 2, y = 30000, label = "Tuition line", color = "steelblue")
+  geom_text(x = 7, y = 20000, label = "Salary line", color = "red") +
+  geom_text(x = 1, y = 20000, label = "Tuition line", color = "steelblue") +
+  ggtitle("Average tuition and Salary by admission group")
 ```
 
-### Figure 3. Scatter Plot
+
+### Figure 2. Scatter Plot on net tuition and salary
 
 ```{r}
 ggplot(data = College_final %>% filter(!is.na(ADM_RATE))) +
   geom_point(aes(x = log(TUITFTE), y = MN_EARN_WNE_P6, color = ADM_RATE), alpha = 0.5) +
-  xlab("Log net tuition") + ylab("Mean salary after graduation") +
+  xlab("Log net tuition") + ylab("Salary ($)") +
+  ggtitle("Log net tuition vs Average Salary after graduation") +
   theme_bw()
 ```
 
-```{r}
-<<<<<<< HEAD
-top5Uni <- filter(College_final, INSTNM %in% c("Harvard University", "Cornell University", "University of Pennsylvania","Princeton University", "Yale University","Stanford University","University Of Michigan","Duke University","University of Georgia", "University of Notre Dame","Brown University")) %>% select(REGION,INSTNM,ADM_RATE,RET_FT4) 
+### Figure 3. 
 
-kable(top5Uni, caption = "Admissions vs. Retention (Top 5 Ivy. Universities")
-```
-=======
-library(knitr)
-CollegesSummary <- Colleges %>% group_by(REGION) %>%
+```{r}
+CollegesSummary <- College_final %>%
+  filter(REGION != 0) %>%
+  group_by(REGION) %>%
   summarize(Mean_Cost_of_Attendance = mean(TUITFTE, na.rm=TRUE),
             Min_Cost_of_Attendance = min(TUITFTE, na.rm=TRUE),
-            Max_Cost_of_Attendance = max(TUITFTE, na.rm=TRUE))
-kable(CollegesSummary, caption= "Tuition Fees of Colleges in Different Regions")
+            Max_Cost_of_Attendance = max(TUITFTE, na.rm=TRUE),
+            net_earning = sum(MN_EARN_WNE_P6 * COUNT_WNE_P6, na.rm = TRUE),
+            net_employed = sum(!is.na(COUNT_WNE_P6)),
+            Average_earning = net_earning/net_employed) %>%
+  select(REGION, Mean_Cost_of_Attendance, Min_Cost_of_Attendance, Max_Cost_of_Attendance, Average_earning) %>%
+  mutate(ROI = Average_earning - Mean_Cost_of_Attendance * 4) %>%
+  rename(
+    Region = REGION
+  )
+  
+kable(CollegesSummary %>% select(-ROI), caption= "Tuition Fees of Colleges in Different Regions")
 ```
 
 
->>>>>>> 6357db0ed11f509a6519cdfe0351d40dc5e910ea
+### Figure 4. ROI grouped by region
+
+```{r}
+ggplot(data = CollegesSummary) +
+  geom_bar(aes(x = factor(Region), y = ROI / 10^8), stat = "identity", fill = "steelblue") +
+  theme_bw() +
+  ggtitle("Return on Investment by Region") +
+  xlab("Region") +
+  ylab("ROI (100M $)")
+```
+
+### Figure 5. Top 10 Universities
+
+```{r}
+top10Uni <- College_final %>%
+  filter(INSTNM %in% c("Harvard University", "Cornell University", "University of Pennsylvania","Princeton University", "Yale University","Stanford University","University Of Michigan","Duke University","University of Georgia", "University of Notre Dame","Brown University")) %>%
+  mutate(Category = ifelse(INSTNM %in% c("Harvard University", "Cornell University", "University of Pennsylvania","Princeton University", "Yale University"), "IVY", "D1")) %>%
+  select(Category, REGION,INSTNM,ADM_RATE,RET_FT4, TUITFTE, MN_EARN_WNE_P6) %>%
+  arrange(desc(Category)) %>%
+  rename(
+    Region = REGION,
+    Institution = INSTNM,
+    Admission_Rate = ADM_RATE,
+    Retention_Rate = RET_FT4,
+    Tuition = TUITFTE,
+    Salary = MN_EARN_WNE_P6
+  )
+
+kable(top10Uni, caption = "Top 10 Universities, IVY vs D1")
+```
