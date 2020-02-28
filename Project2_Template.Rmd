@@ -79,7 +79,7 @@ Within this diagram, we wanted to look a bit more closely at the relationship be
 
 ```{r}
 ggplot(data = College_final %>% filter(!is.na(ADM_RATE))) +
-  geom_point(aes(x = log(TUITFTE), y = MN_EARN_WNE_P6, color = ADM_RATE), alpha = 0.5) +
+  geom_point(aes(x = log10(TUITFTE), y = MN_EARN_WNE_P6, color = ADM_RATE), alpha = 0.5) +
   xlab("Log net tuition") + ylab("Salary ($)") +
   ggtitle("Log net tuition vs Average Salary after graduation") +
   theme_bw()
