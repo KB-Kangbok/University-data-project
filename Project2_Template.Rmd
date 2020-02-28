@@ -45,11 +45,18 @@ College_final$RET_PTL4 <- as.numeric(as.character(College_final$RET_PTL4))
 College_final$WDRAW_ORIG_YR4_RT <- as.numeric(as.character(College_final$WDRAW_ORIG_YR4_RT))
 ```
 
+=======
+In parsing through the US college data & sharing our individual questions of interest, our group decided to explore the dynamic relationship between the college institutions & their overall return on investment. We felt that this was an interesting topic to explore being that there are good amounts of concern & conversations around life & success after graduation; especially with that being depended on where you attend college. Is true that the return is greater based on the presteige of the college you attend or is that a myth? The specific factors (variables) that we wanted to take a closer look at were the overall tuition fees, retention & admission rates. We also wanted to incorporate the institution names, regions, & average earnings(salaries). 
+
 ### Figure 1 Description 
 
-In this graph, it seeks to look into the relationship between two scenarios:
-1. The average tuition rates (yearly) according to the admission rates of college institutions categorized into each decile.
-2. The average annual salaries of graduates (those who gr)
+In this graph, we seeked to look into the relationship between two scenarios:
+1. The average tuition rates (yearly) according to the admission (acceptance) rates of college institutions categorized into each decile.
+2. The average annual salaries of graduates (those who graduated within 6yrs) according to their alma maters' admission rates (again, categorized into each decile).
+
+The tuition fees of more selective institutions (admission rate <25%) hover at an average annual tuition of $20,000~$30,000/year, whereas the average annual tuition of institutions with higher admission rates (>40%) appear to be significantly lower at less than $10,000/year.  
+
+Towards the left of the graph represents that the admission rate is lower (institution is more selective) and towards the right of the graph represents that the admission rate is higher (less selective). Although the tuition fee (initial cost) was much higher for graduates from more selective institutions, the trend on this graph shows that graduates from more selective institutions command higher salaries (especially for graduates from institutions with admission rates ranging from 0~20%) than graudates from less selective ones. This yields a higher ROI, on average, for graduates from institutions with admission rates of <20%, in particular. However, the statement of "graduates from institutions of lower admission rates gain higher ROI than those from institutions of higher admission rates" seems to be true ONLY for graduates who graduated from institutions with an acceptance rate under 20%. This is due to the fact that the difference between annual salary and annual tuition for graduates of institutions of admission rates higher than 20% seem to remain constant at about $20,000~$25,000 in yearly ROI profits.
 
 ### Figure 1. Line Plot on Admmission group
 
@@ -86,6 +93,24 @@ ggplot(data = College_final %>% filter(!is.na(ADM_RATE))) +
   theme_bw()
 ```
 
+### Figure 3 Description
+
+This table shows the average annual earnings and average cost of attendance (yearly) per institution according to different regions.
+
+Region No.  |  Region
+----------  | --------------
+1 | New England (CT, ME, MA, NH, RI, VT)
+2 | Mid East (DE, DC, MD, NJ, NY, PA)
+3 | Great Lakes (IL, IN , MI, OH, WI)
+4 | Plains (IA, KS, MN, MO, NE, ND, SD)
+5 | Southeast (AL, AR, FL, GA, KY, LA, MS, NC, SC, TN, VA, WV)
+6 | Southwest (AZ, NM, OK, TX)
+7 | Rocky Mountains (CO, ID, MT, UT, WY)
+8 | Far West (AK, CA, HI, NV, OR, WA)
+9 | Outlying Areas (AS, FM, GU, MH, MP, PR, PW, VI)
+
+The average annual earnings of graduates from a New England, Mid East institution is higher than that of the institutions of other regions. However, it is also worth taking note that the graduates from a New England or Mid East institution also had to pay higher average costs of attendance during their attendance compared to those who graduated from other regions.  
+
 ### Figure 3. 
 
 ```{r}
@@ -109,6 +134,8 @@ kable(CollegesSummary %>% select(-ROI), caption= "Tuition Fees of Colleges in Di
 
 
 ### Figure 4. ROI grouped by region
+
+Taking the previous table (Figure 3) into account, we thought it would be noteworthy to explore the ROI according to the different regions of institutions. Surprisingly, institutions of regions 1 and 2 do not represent the highest average ROI, in spite of the fact that graduates of these regions earned a higher average annual salary compared to those from institutions of other regions. We believe that this is because the difference in AVERAGE YEARLY TUITION FEES of institutions across different regions is larger than the difference in the AVERAGE ANNUAL EARNINGS of institutions across different regions.
 
 ```{r}
 ggplot(data = CollegesSummary) +
