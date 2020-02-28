@@ -1,0 +1,83 @@
+---
+title: "Individual Project Graphics"
+author: "KB Lee"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE, fig.height = 4, fig.width = 6 )
+```
+
+
+```{r}
+library(tidyverse)
+library(knitr)
+```
+
+
+```{r, cache=TRUE}
+# read in data 
+Colleges1 <- read.csv("https://ed-public-download.app.cloud.gov/downloads/Most-Recent-Cohorts-Scorecard-Elements.csv")
+Colleges2 <- read.csv("https://ed-public-download.app.cloud.gov/downloads/Most-Recent-Cohorts-Treasury-Elements.csv")
+Colleges3 <- read.csv("https://ed-public-download.app.cloud.gov/downloads/Most-Recent-Cohorts-All-Data-Elements.csv")
+```
+
+```{r}
+names(Colleges1)[1] = "UNITID"
+names(Colleges2)[1] = "UNITID"
+names(Colleges3)[1] = "UNITID"
+
+College_subset1 <- Colleges2 %>% select(MN_EARN_WNE_P6, COUNT_WNE_P6, UNITID, INSTNM)
+College_subset2 <- Colleges3 %>% select(UNITID, ADM_RATE, TUITIONFEE_PROG, TUITFTE, RET_FT4, RET_FTL4, RET_PT4, RET_PTL4, WDRAW_ORIG_YR4_RT, REGION)
+College_final <- inner_join(x = College_subset1, y = College_subset2, by = "UNITID")
+
+College_final$INSTNM <- as.character(College_final$INSTNM)
+College_final$MN_EARN_WNE_P6 <- as.numeric(as.character(College_final$MN_EARN_WNE_P6))
+College_final$COUNT_WNE_P6 <- as.numeric(as.character(College_final$COUNT_WNE_P6))
+College_final$ADM_RATE <- as.numeric(as.character(College_final$ADM_RATE))
+College_final$TUITIONFEE_PROG <- as.numeric(as.character(College_final$TUITIONFEE_PROG))
+College_final$TUITFTE <- as.numeric(as.character(College_final$TUITFTE))
+College_final$RET_FT4 <- as.numeric(as.character(College_final$RET_FT4))
+College_final$RET_FTL4 <- as.numeric(as.character(College_final$RET_FTL4))
+College_final$RET_PT4 <- as.numeric(as.character(College_final$RET_PT4))
+College_final$RET_PTL4 <- as.numeric(as.character(College_final$RET_PTL4))
+College_final$WDRAW_ORIG_YR4_RT <- as.numeric(as.character(College_final$WDRAW_ORIG_YR4_RT))
+```
+
+### Figure 1. Table
+
+```{r}
+College_tbl_data <- College_final %>% 
+  mutate(adm_group = (ADM_RATE * 100) %/% 10) %>%
+  filter(!is.na(adm_group) & !is.na(MN_EARN_WNE_P6) & !is.na(COUNT_WNE_P6)) %>%
+  group_by(adm_group) %>% 
+  summarize(Avg_net_tuition = mean(TUITFTE, na.rm = TRUE),
+            net_earning = sum(MN_EARN_WNE_P6 * COUNT_WNE_P6, na.rm = TRUE),
+            net_employed = sum(!is.na(COUNT_WNE_P6)),
+            Avg_earning = net_earning/net_employed
+            )
+kable(College_tbl_data, caption = "College tuition and salary grouped by admission rate")
+```
+
+### Figure 2. Line plot
+
+```{r}
+ggplot(data = College_tbl_data) +
+  geom_line(aes(x = adm_group, y = Avg_net_tuition), color = "steelblue") +
+  geom_line(aes(x = adm_group, y = Avg_earning / 10000), color = "red") +
+  theme_bw() +
+  ylab("Modified average tuition & salary") +
+  xlab("Admission rates quotient by 10") +
+  geom_text(x = 7, y = 30000, label = "Salary line", color = "red") +
+  geom_text(x = 2, y = 30000, label = "Tuition line", color = "steelblue")
+```
+
+### Figure 3. Scatter Plot
+
+```{r}
+ggplot(data = College_final %>% filter(!is.na(ADM_RATE))) +
+  geom_point(aes(x = log(TUITFTE), y = MN_EARN_WNE_P6, color = ADM_RATE), alpha = 0.5) +
+  xlab("Log net tuition") + ylab("Mean salary after graduation") +
+  theme_bw()
+```
