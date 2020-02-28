@@ -45,8 +45,7 @@ College_final$RET_PTL4 <- as.numeric(as.character(College_final$RET_PTL4))
 College_final$WDRAW_ORIG_YR4_RT <- as.numeric(as.character(College_final$WDRAW_ORIG_YR4_RT))
 ```
 
-=======
-In parsing through the US college data & sharing our individual questions of interest, our group decided to explore the dynamic relationship between the college institutions & their overall return on investment. We felt that this was an interesting topic to explore being that there are good amounts of concern & conversations around life & success after graduation; especially with that being depended on where you attend college. Is true that the return is greater based on the presteige of the college you attend or is that a myth? The specific factors (variables) that we wanted to take a closer look at were the overall tuition fees, retention & admission rates. We also wanted to incorporate the institution names, regions, & average earnings(salaries). 
+In parsing through the US college data & sharing our individual questions of interest, our group decided to explore the dynamic relationship between the college institutions & their overall return on investment. We felt that this was an interesting topic to explore being that there are good amounts of concern & conversations around life & success after graduation; especially with that being depended on where you attend college. Is true that the return is greater based on the prestige of the college you attend or is that a myth? The specific factors (variables) that we wanted to take a closer look at were the overall tuition fees, retention & admission rates. We also wanted to incorporate the institution names, regions, & average earnings(salaries) after graduation. 
 
 ### Figure 1 Description 
 
@@ -58,7 +57,7 @@ The tuition fees of more selective institutions (admission rate <25%) hover at a
 
 Towards the left of the graph represents that the admission rate is lower (institution is more selective) and towards the right of the graph represents that the admission rate is higher (less selective). Although the tuition fee (initial cost) was much higher for graduates from more selective institutions, the trend on this graph shows that graduates from more selective institutions command higher salaries (especially for graduates from institutions with admission rates ranging from 0~20%) than graudates from less selective ones. This yields a higher ROI, on average, for graduates from institutions with admission rates of <20%, in particular. However, the statement of "graduates from institutions of lower admission rates gain higher ROI than those from institutions of higher admission rates" seems to be true ONLY for graduates who graduated from institutions with an acceptance rate under 20%. This is due to the fact that the difference between annual salary and annual tuition for graduates of institutions of admission rates higher than 20% seem to remain constant at about $20,000~$25,000 in yearly ROI profits.
 
-### Figure 1. Line Plot on Admmission group
+#### Figure 1. Line Plot on Admmission group
 
 ```{r}
 College_tbl_data <- College_final %>% 
@@ -82,9 +81,9 @@ ggplot(data = College_tbl_data) +
   ggtitle("Average tuition and Salary by admission group")
 ```
 
-Within this diagram, we wanted to look a bit more closely at the relationship between the average tutition costs of the universities & average salary payoffs for the student populus at these universities.As you take a glance at the legend on the graph as well, you can see that it indicates highest to lowest "ADM_RATE" (admissions rate) values signified by lightest to darkest coloring. With these three factors within the diagram, some key takeaways that you can have is that: 1) The lower the admission's rate, the higher the tutiton. 2) Those with attended universities with a 10,000 tution rate/yr made on average 40,000 a year after graduation. 3) Those with a higher tuition rate & lower admissions rate, made more money, salary wise, after graduation.
+Within this diagram, we wanted to look a bit more closely at the relationship between the average tutition costs of the universities & average salary payoffs for the student populus at these universities.As you take a glance at the legend on the graph as well, you can see that it indicates highest to lowest `ADM_RATE` (admissions rate) values signified by lightest to darkest coloring. With these three factors within the diagram, some key takeaways that you can have is that: 1) The lower the admission's rate, the higher the tutiton. 2) Those with attended universities with a 10,000 tution rate/yr made on average 40,000 a year after graduation. 3) Those with a higher tuition rate & lower admissions rate, made more money, salary wise, after graduation.
 
-### Figure 2. Scatter Plot on net tuition and salary
+#### Figure 2. Scatter Plot on net tuition and salary
 
 ```{r}
 ggplot(data = College_final %>% filter(!is.na(ADM_RATE))) +
@@ -112,7 +111,7 @@ Region No.  |  Region
 
 The average annual earnings of graduates from a New England, Mid East institution is higher than that of the institutions of other regions. However, it is also worth taking note that the graduates from a New England or Mid East institution also had to pay higher average costs of attendance during their attendance compared to those who graduated from other regions.  
 
-### Figure 3. 
+#### Figure 3. Table grouped by region 
 
 ```{r}
 CollegesSummary <- College_final %>%
@@ -134,7 +133,7 @@ kable(CollegesSummary %>% select(-ROI), caption= "Tuition Fees of Colleges in Di
 ```
 
 
-### Figure 4. ROI grouped by region
+#### Figure 4. ROI grouped by region
 
 Taking the previous table (Figure 3) into account, we thought it would be noteworthy to explore the ROI according to the different regions of institutions. Surprisingly, institutions of regions 1 and 2 do not represent the highest average ROI, in spite of the fact that graduates of these regions earned a higher average annual salary compared to those from institutions of other regions. We believe that this is because the difference in AVERAGE YEARLY TUITION FEES of institutions across different regions is larger than the difference in the AVERAGE ANNUAL EARNINGS of institutions across different regions.
 
@@ -148,9 +147,9 @@ ggplot(data = CollegesSummary) +
   ylim(c(0,3))
 ```
 
-Being that we were able to examine some of the more general cases (by region, by admissions rate), a more special case study that we felt hit closer to home was exploring how these hypotheses would play out against the Top 5 Ivy. League Universities & Top 5 Division 1 Universities in the US. We decided to choose: Harvard, Cornell, Yale, Brown, & Princeton (for our Ivy.Leagues) & University of Notre Dame, University of Michigan, University of Georgia, Duke University, & Stanford University ( for our D1 Universities). Some shocking results we came across that contributes greatly to the discussions of ROI's were: 1) The Ivy to have the lowest average salary after graduate was Brown University, even with a higher admissions rate than second lowest Ivy, Yale. 2) The D1 University to have the lowest average salary after graduating was University of Georgia, with a relatively high admissions & retition rate.
+Being that we were able to examine some of the more general cases (by region, by admissions rate), a more special case study that we felt hit closer to home was exploring how these hypotheses would play out against the Top 5 Ivy. League Universities & Top 5 Division 1 Universities in the US. We decided to choose: Harvard, Cornell, Yale, Brown, & Princeton (for our Ivy.Leagues) & University of Notre Dame, University of Michigan, University of Georgia, Duke University, & Stanford University ( for our D1 Universities). Some shocking results we came across that contributes greatly to the discussions of ROI's were: 1) The Ivy to have the lowest average salary after graduate was Brown University, even with a higher admissions rate than second lowest Ivy, Yale. 2) The D1 University to have the lowest average salary after graduating was University of Georgia, with a relatively high admissions & retention rate.
 
-### Figure 5. Top 10 Universities
+#### Figure 5. Top 10 Universities
 
 ```{r}
 top10Uni <- College_final %>%
