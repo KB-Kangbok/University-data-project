@@ -45,6 +45,8 @@ College_final$RET_PTL4 <- as.numeric(as.character(College_final$RET_PTL4))
 College_final$WDRAW_ORIG_YR4_RT <- as.numeric(as.character(College_final$WDRAW_ORIG_YR4_RT))
 ```
 
+In parsing through the US college data & sharing our individual questions of interest, our group decided to explore the dynamic relationship between the college institutions & their overall return on investment. We felt that this was an interesting topic to explore being that there are good amounts of concern & conversations around life & success after graduation; with that being depended on where you attend college. Is true that
+
 ### Figure 1. Line Plot on Admmission group
 
 ```{r}
