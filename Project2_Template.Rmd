@@ -83,7 +83,19 @@ ggplot(data = College_final %>% filter(!is.na(ADM_RATE))) +
 ```
 
 ```{r}
+<<<<<<< HEAD
 top5Uni <- filter(College_final, INSTNM %in% c("Harvard University", "Cornell University", "University of Pennsylvania","Princeton University", "Yale University","Stanford University","University Of Michigan","Duke University","University of Georgia", "University of Notre Dame","Brown University")) %>% select(REGION,INSTNM,ADM_RATE,RET_FT4) 
 
 kable(top5Uni, caption = "Admissions vs. Retention (Top 5 Ivy. Universities")
 ```
+=======
+library(knitr)
+CollegesSummary <- Colleges %>% group_by(REGION) %>%
+  summarize(Mean_Cost_of_Attendance = mean(TUITFTE, na.rm=TRUE),
+            Min_Cost_of_Attendance = min(TUITFTE, na.rm=TRUE),
+            Max_Cost_of_Attendance = max(TUITFTE, na.rm=TRUE))
+kable(CollegesSummary, caption= "Tuition Fees of Colleges in Different Regions")
+```
+
+
+>>>>>>> 6357db0ed11f509a6519cdfe0351d40dc5e910ea
