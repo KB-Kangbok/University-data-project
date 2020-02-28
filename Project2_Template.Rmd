@@ -73,6 +73,7 @@ ggplot(data = College_tbl_data) +
   ggtitle("Average tuition and Salary by admission group")
 ```
 
+Within this diagram, we wanted to look a bit more closely at the relationship between the average tutition costs of the universities & average salary payoffs for the student populus at these universities.As you take a glance at the legend on the graph as well, you can see that it indicates highest to lowest "ADM_RATE" (admissions rate) values signified by lightest to darkest coloring. With these three factors within the diagram, some key takeaways that you can have is that: 1) The lower the admission's rate, the higher the tutiton. 2)
 
 ### Figure 2. Scatter Plot on net tuition and salary
 
@@ -117,6 +118,8 @@ ggplot(data = CollegesSummary) +
   ylab("ROI ($10,000)") +
   ylim(c(0,3))
 ```
+
+Being that we were able to examine some of 
 
 ### Figure 5. Top 10 Universities
 
