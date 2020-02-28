@@ -140,3 +140,5 @@ top10Uni <- College_final %>%
 
 kable(top10Uni, caption = "Top 10 Universities, IVY vs D1")
 ```
+
+In parsing through the US college data & sharing our individual questions of interest, these graphs were what our group generated to explore the dynamic relationship between the college institutions & their overall return on investment. The dynamics we took a closer 
