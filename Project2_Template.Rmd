@@ -81,3 +81,9 @@ ggplot(data = College_final %>% filter(!is.na(ADM_RATE))) +
   xlab("Log net tuition") + ylab("Mean salary after graduation") +
   theme_bw()
 ```
+
+```{r}
+top5Uni <- filter(College_final, INSTNM %in% c("Harvard University", "Cornell University", "University of Pennsylvania","Princeton University", "Yale University","Stanford University","University Of Michigan","Duke University","University of Georgia", "University of Notre Dame","Brown University")) %>% select(REGION,INSTNM,ADM_RATE,RET_FT4) 
+
+kable(top5Uni, caption = "Admissions vs. Retention (Top 5 Ivy. Universities")
+```
