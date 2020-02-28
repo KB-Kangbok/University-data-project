@@ -45,6 +45,12 @@ College_final$RET_PTL4 <- as.numeric(as.character(College_final$RET_PTL4))
 College_final$WDRAW_ORIG_YR4_RT <- as.numeric(as.character(College_final$WDRAW_ORIG_YR4_RT))
 ```
 
+### Figure 1 Description 
+
+In this graph, it seeks to look into the relationship between two scenarios:
+1. The average tuition rates (yearly) according to the admission rates of college institutions categorized into each decile.
+2. The average annual salaries of graduates (those who gr)
+
 ### Figure 1. Line Plot on Admmission group
 
 ```{r}
